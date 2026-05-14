@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PlantTree - Vivero en Casa</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  .footer {
+    background: #2c5f34;
+    color: #fff;
+    text-align: center;
+    padding: 18px 10px;
+    font-size: 13px;
+    margin-top: 40px;
+  }
+  .footer p { margin: 0; opacity: 0.85; }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --green: #3a7d44; --green-light: #e8f5e9; --green-dark: #2c5f34;
+    --text: #1a1a1a; --muted: #777; --radius: 12px;
+  }
+  body { font-family: 'DM Sans', sans-serif; color: var(--text); background: #fafafa; }
+
+  .topbar { background: var(--green); color: #fff; font-size: 12px; padding: 7px 32px; display: flex; justify-content: space-between; align-items: center; }
+  .topbar-right { display: flex; gap: 16px; }
+  .topbar-right select { background: transparent; border: none; color: #fff; font-size: 12px; cursor: pointer; }
+
+  nav { background: #fff; padding: 0 40px; display: flex; align-items: center; justify-content: space-between; height: 68px; box-shadow: 0 2px 12px rgba(0,0,0,.07); position: sticky; top: 0; z-index: 200; }
+  .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .logo svg { width: 36px; height: 36px; }
+  .logo-name { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--green-dark); line-height: 1; }
+  .logo-sub { font-size: 9px; letter-spacing: 2.5px; color: var(--muted); }
+  .nav-links { display: flex; gap: 28px; list-style: none; }
+  .nav-links a { text-decoration: none; color: var(--text); font-size: 14px; font-weight: 500; transition: color .15s; }
+  .nav-links a:hover { color: var(--green); }
+  .nav-icons { display: flex; gap: 18px; align-items: center; }
+  .nav-icon-btn { background: none; border: none; cursor: pointer; font-size: 19px; position: relative; }
+  .cart-badge { position: absolute; top: -6px; right: -7px; background: var(--green); color: #fff; border-radius: 50%; width: 19px; height: 19px; font-size: 10px; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+
+  .hero { background: linear-gradient(130deg, #f0f7f0 0%, #e4f2e5 55%, #c5e1c8 100%); padding: 64px 80px; display: flex; align-items: center; justify-content: space-between; min-height: 420px; position: relative; overflow: hidden; }
+  .hero-wm { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); font-family: 'Playfair Display', serif; font-size: 148px; font-weight: 700; color: rgba(58,125,68,.05); letter-spacing: -4px; pointer-events: none; white-space: nowrap; }
+  .hero-text { position: relative; z-index: 2; }
+  .hero-tag { color: var(--green); font-size: 13px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; font-style: italic; margin-bottom: 10px; }
+  .hero-text h1 { font-family: 'Playfair Display', serif; font-size: 58px; line-height: 1.08; margin-bottom: 28px; }
+  .hero-text h1 strong { color: var(--green-dark); display: block; }
+  .btn-primary { background: var(--green); color: #fff; border: none; padding: 13px 30px; border-radius: 7px; font-size: 14px; font-weight: 500; cursor: pointer; transition: background .2s; font-family: 'DM Sans', sans-serif; }
+  .btn-primary:hover { background: var(--green-dark); }
+  .hero-img { position: relative; z-index: 2; }
+  .hero-img img { width: 320px; height: 320px; object-fit: contain; }
+
+  .section { padding: 48px 40px; }
+  .cat-grid { display: grid; grid-template-columns: repeat(6,1fr); gap: 16px; }
+  .cat-card { background: #fff; border-radius: var(--radius); text-align: center; padding: 18px 8px 14px; cursor: pointer; border: 1px solid #eee; transition: box-shadow .2s, transform .2s; }
+  .cat-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,.09); transform: translateY(-3px); }
+  .cat-card.hl { background: var(--green-light); border-color: #b2dfb5; }
+  .cat-card img { width: 80px; height: 80px; object-fit: contain; }
+  .cat-card h4 { font-size: 13px; font-weight: 600; margin-top: 8px; }
+  .cat-card span { font-size: 11px; color: var(--muted); }
+
+  .section-title { text-align: center; font-family: 'Playfair Display', serif; font-size: 34px; margin-bottom: 4px; }
+  .section-leaf { text-align: center; font-size: 20px; margin-bottom: 18px; }
+
+  .filter-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 32px; }
+  .filter-tab { padding: 8px 22px; border-radius: 20px; border: 1px solid #ddd; font-size: 13px; cursor: pointer; background: #fff; transition: all .2s; font-family: 'DM Sans', sans-serif; }
+  .filter-tab.active { background: var(--green); color: #fff; border-color: var(--green); }
+
+  .products-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; min-height: 100px; }
+
+  .products-grid.fade { opacity: 0; transform: translateY(6px); transition: opacity .2s, transform .2s; }
+  .products-grid.visible { opacity: 1; transform: none; transition: opacity .25s, transform .25s; }
+
+  .product-card { background: #fff; border-radius: var(--radius); overflow: hidden; border: 1px solid #eee; cursor: pointer; position: relative; transition: box-shadow .2s, transform .2s; }
+  .product-card:hover { box-shadow: 0 12px 32px rgba(0,0,0,.1); transform: translateY(-4px); }
+  .product-card img { width: 100%; height: 200px; object-fit: contain; background: #f7fbf7; padding: 16px; display: block; }
+  .product-info { padding: 12px 16px 18px; }
+  .product-name { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+
+  /* BUG #2 — Precio oculto */
+  .price-hint { font-size: 11px; color: var(--muted); font-style: italic; }
+  .product-price { display: none; margin-top: 4px; }
+  .price-now { font-size: 15px; font-weight: 700; color: var(--green-dark); }
+  .price-old { font-size: 12px; color: var(--muted); text-decoration: line-through; margin-left: 5px; }
+
+  .countdown-badge { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,.65); color: #fff; font-size: 10px; padding: 3px 8px; border-radius: 4px; }
+
+  .irrelevant { background: #f3f3f3; padding: 44px 40px; text-align: center; border-top: 1px solid #e5e5e5; }
+  .irrelevant h2 { font-family: 'Playfair Display', serif; font-size: 28px; margin-bottom: 8px; }
+  .irrelevant p { color: var(--muted); font-size: 14px; max-width: 480px; margin: 0 auto 24px; }
+  .engine-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; max-width: 700px; margin: 0 auto; }
+  .engine-card { background: #fff; border-radius: 10px; padding: 20px; border: 1px solid #ddd; text-align: left; }
+  .engine-card h4 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+  .engine-card p { font-size: 12px; color: var(--muted); }
+
+  .promo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding: 0 40px 48px; }
+  .promo { border-radius: 16px; overflow: hidden; position: relative; height: 240px; display: flex; align-items: flex-end; padding: 28px; cursor: pointer; }
+  .promo.dark { background: var(--green); }
+  .promo.light { background: var(--green-light); border: 1px solid #b2dfb5; }
+  .promo-text { position: relative; z-index: 2; }
+  .promo-tag { font-size: 12px; font-style: italic; }
+  .promo.dark .promo-tag { color: rgba(255,255,255,.75); }
+  .promo.light .promo-tag { color: var(--green); }
+  .promo-text h2 { font-family: 'Playfair Display', serif; font-size: 26px; line-height: 1.2; }
+  .promo.dark .promo-text h2 { color: #fff; }
+  .promo.light .promo-text h2 { color: var(--green-dark); }
+  .promo-img { position: absolute; right: 20px; bottom: 0; height: 200px; object-fit: contain; }
+
+  .features { background: #fff; border-top: 1px solid #eee; display: flex; justify-content: center; gap: 64px; padding: 36px 40px; }
+  .feature { text-align: center; }
+  .feature-icon { font-size: 34px; margin-bottom: 8px; }
+  .feature h4 { font-size: 13px; font-weight: 600; }
+  .feature p { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.48); z-index: 500; align-items: center; justify-content: center; }
+  .modal-overlay.open { display: flex; }
+  .modal { background: #fff; border-radius: 18px; width: 420px; max-width: 92vw; overflow: hidden; box-shadow: 0 28px 60px rgba(0,0,0,.22); animation: popIn .22s ease; }
+  @keyframes popIn { from { opacity:0; transform:scale(.94); } to { opacity:1; transform:scale(1); } }
+  .modal-img-wrap { background: #f5fbf5; padding: 28px; text-align: center; }
+  .modal-img-wrap img { height: 190px; object-fit: contain; }
+  .modal-body { padding: 22px 26px 26px; }
+  .modal-name { font-family: 'Playfair Display', serif; font-size: 22px; margin-bottom: 8px; }
+  .modal-price { font-size: 22px; font-weight: 700; color: var(--green-dark); margin-bottom: 10px; }
+  .modal-price .old { font-size: 14px; color: var(--muted); font-weight: 400; text-decoration: line-through; margin-left: 8px; }
+  .modal-desc { font-size: 13px; color: var(--muted); line-height: 1.65; margin-bottom: 20px; }
+  .modal-actions { display: flex; gap: 10px; }
+  .btn-add-cart { flex: 1; background: var(--green); color: #fff; border: none; padding: 13px; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; transition: background .2s; font-family: 'DM Sans', sans-serif; }
+  .btn-add-cart:hover { background: var(--green-dark); }
+  .btn-modal-close { background: #f0f0f0; border: none; padding: 13px 16px; border-radius: 8px; font-size: 18px; cursor: pointer; }
+  .btn-modal-close:hover { background: #e0e0e0; }
+
+  .coupon-popup-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,.55); z-index: 900;
+    align-items: center; justify-content: center;
+  }
+  .coupon-popup-overlay.open { display: flex; }
+  .coupon-popup {
+    background: #fff; border-radius: 20px; width: 420px; max-width: 92vw;
+    overflow: hidden; box-shadow: 0 32px 70px rgba(0,0,0,.25);
+    animation: popIn .28s ease;
+  }
+  .coupon-popup-banner {
+    background: linear-gradient(135deg, var(--green-dark) 0%, var(--green) 100%);
+    padding: 32px 28px 24px;
+    text-align: center; position: relative;
+  }
+  .coupon-popup-banner .gift-icon { font-size: 48px; margin-bottom: 10px; }
+  .coupon-popup-banner h2 { font-family: 'Playfair Display', serif; font-size: 24px; color: #fff; margin-bottom: 4px; }
+  .coupon-popup-banner p { font-size: 13px; color: rgba(255,255,255,.82); }
+  .coupon-popup-body { padding: 24px 28px 28px; }
+  .coupon-popup-body p { font-size: 13px; color: var(--muted); margin-bottom: 18px; text-align: center; }
+  .coupon-codes-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 22px; }
+  .coupon-code-chip {
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--green-light); border: 1.5px dashed var(--green);
+    border-radius: 10px; padding: 12px 16px; cursor: pointer;
+    transition: background .15s;
+  }
+  .coupon-code-chip:hover { background: #d4edda; }
+  .coupon-code-chip .code { font-family: monospace; font-size: 16px; font-weight: 700; color: var(--green-dark); letter-spacing: 2px; }
+  .coupon-code-chip .disc { font-size: 12px; color: var(--green); font-weight: 600; }
+  .coupon-code-chip .copy-hint { font-size: 10px; color: var(--muted); }
+  .btn-close-popup {
+    width: 100%; background: var(--green); color: #fff; border: none;
+    padding: 13px; border-radius: 9px; font-size: 14px; font-weight: 500;
+    cursor: pointer; font-family: 'DM Sans', sans-serif; transition: background .2s;
+  }
+  .btn-close-popup:hover { background: var(--green-dark); }
+  .popup-skip { text-align: center; margin-top: 10px; font-size: 12px; color: var(--muted); cursor: pointer; text-decoration: underline; }
+
+  @media (max-width: 768px) {
+
+    .topbar { padding: 6px 16px; font-size: 11px; }
+    .topbar-right { gap: 10px; }
+
+    nav { padding: 0 16px; height: 58px; }
+    .nav-links { display: none; } 
+    .logo-name { font-size: 17px; }
+
+    .hero { padding: 40px 24px; flex-direction: column; align-items: flex-start; min-height: auto; gap: 24px; }
+    .hero-wm { font-size: 72px; }
+    .hero-text h1 { font-size: 40px; }
+    .hero-img { width: 100%; text-align: center; }
+    .hero-img img { width: 220px; height: 220px; }
+
+    .section { padding: 28px 16px; }
+    .cat-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .cat-card img { width: 56px; height: 56px; }
+    .cat-card { padding: 14px 6px 10px; }
+
+    .section-title { font-size: 26px; }
+
+    .filter-tabs { gap: 8px; flex-wrap: wrap; }
+    .filter-tab { padding: 7px 16px; font-size: 12px; }
+
+    .products-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+
+    .irrelevant { padding: 32px 16px; }
+    .engine-grid { grid-template-columns: 1fr; max-width: 100%; }
+
+    .promo-grid { grid-template-columns: 1fr; padding: 0 16px 32px; gap: 16px; }
+    .promo { height: 200px; }
+    .promo-img { height: 160px; }
+    .promo-text h2 { font-size: 22px; }
+
+    .features { gap: 28px; padding: 28px 16px; flex-wrap: wrap; justify-content: center; }
+    .feature { min-width: 80px; }
+
+    .modal { width: 95vw; border-radius: 14px; }
+    .modal-img-wrap { padding: 18px; }
+    .modal-img-wrap img { height: 150px; }
+    .modal-body { padding: 16px 18px 20px; }
+    .modal-name { font-size: 18px; }
+    .modal-price { font-size: 19px; }
+
+    .coupon-popup { width: 92vw; }
+    .coupon-popup-banner { padding: 24px 18px 18px; }
+    .coupon-popup-banner h2 { font-size: 20px; }
+    .coupon-popup-body { padding: 18px 18px 22px; }
+  }
+
+  @media (max-width: 480px) {
+    .topbar-right { display: none; }
+    .topbar { justify-content: center; }
+
+    nav { padding: 0 14px; height: 54px; }
+    .logo-sub { display: none; }
+
+    .hero { padding: 32px 16px; }
+    .hero-wm { display: none; }
+    .hero-text h1 { font-size: 34px; margin-bottom: 20px; }
+    .hero-tag { font-size: 11px; }
+    .hero-img img { width: 180px; height: 180px; }
+    .btn-primary { padding: 11px 22px; font-size: 13px; }
+
+    .cat-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .cat-card img { width: 48px; height: 48px; }
+    .cat-card h4 { font-size: 12px; }
+    .cat-card span { display: none; }
+
+    .section { padding: 24px 14px; }
+    .section-title { font-size: 22px; }
+
+    .filter-tab { padding: 6px 13px; font-size: 12px; }
+
+    .products-grid { grid-template-columns: 1fr; gap: 12px; }
+    .product-card img { height: 180px; }
+
+    .promo-grid { padding: 0 14px 24px; }
+    .promo { height: 180px; padding: 20px; }
+    .promo-img { height: 140px; right: 10px; }
+    .promo-text h2 { font-size: 20px; }
+
+    .features { gap: 20px; padding: 24px 14px; }
+    .feature { width: calc(50% - 20px); }
+    .feature-icon { font-size: 28px; }
+
+    .modal-overlay { align-items: flex-end; }
+    .modal {
+      width: 100vw;
+      border-radius: 18px 18px 0 0;
+      max-width: 100%;
+      animation: slideUp .25s ease;
+    }
+    @keyframes slideUp {
+      from { transform: translateY(60px); opacity: 0; }
+      to   { transform: translateY(0);    opacity: 1; }
+    }
+    .modal-img-wrap img { height: 130px; }
+    .modal-body { padding: 14px 16px 28px; }
+    .modal-desc { font-size: 12px; }
+
+    .coupon-popup { width: 96vw; border-radius: 16px; }
+    .coupon-code-chip .code { font-size: 14px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="coupon-popup-overlay" id="couponPopup">
+  <div class="coupon-popup">
+    <div class="coupon-popup-banner">
+      <div class="gift-icon">🎁</div>
+      <h2>¡Regalo de Bienvenida!</h2>
+      <p>Úsalo en tu primera compra en PlantTree</p>
+    </div>
+    <div class="coupon-popup-body">
+      <p>Elige tu cupón favorito y aplícalo en el carrito:</p>
+      <div class="coupon-codes-list">
+        <div class="coupon-code-chip" onclick="copyCode('VERDE15')">
+          <div>
+            <div class="code">VERDE15</div>
+            <div class="disc">15% de descuento</div>
+          </div>
+          <div class="copy-hint">Toca para copiar</div>
+        </div>
+        <div class="coupon-code-chip" onclick="copyCode('PLANTA10')">
+          <div>
+            <div class="code">PLANTA10</div>
+            <div class="disc">10% de descuento</div>
+          </div>
+          <div class="copy-hint">Toca para copiar</div>
+        </div>
+        <div class="coupon-code-chip" onclick="copyCode('JARDIN20')">
+          <div>
+            <div class="code">JARDIN20</div>
+            <div class="disc">20% de descuento</div>
+          </div>
+          <div class="copy-hint">Toca para copiar</div>
+        </div>
+      </div>
+      <button class="btn-close-popup" onclick="closePopup()">¡Entendido, gracias!</button>
+      <p class="popup-skip" onclick="closePopup()">No gracias, continuar sin descuento</p>
+    </div>
+  </div>
+</div>
+
+<div class="topbar">
+  <span>🌿 El Vivero Online más Rápido del Mundo</span>
+  <div class="topbar-right">
+    <select><option>USD $</option><option>EUR €</option></select>
+    <select><option>Español</option><option>English</option></select>
+  </div>
+</div>
+
+<nav>
+  <a class="logo" href="index.html">
+    <svg viewBox="0 0 36 36" fill="none">
+      <path d="M18 4C18 4 9 11 9 20a9 9 0 0018 0C27 11 18 4 18 4z" fill="#3a7d44"/>
+      <line x1="18" y1="20" x2="18" y2="33" stroke="#2c5f34" stroke-width="2"/>
+      <path d="M18 25 C13 22 11 17 14.5 15" stroke="#3a7d44" stroke-width="1.5" fill="none"/>
+    </svg>
+    <div>
+      <div class="logo-name">PlantTree</div>
+      <div class="logo-sub">VIVERO EN CASA</div>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#">Albahaca ▾</a></li>
+    <li><a href="#">Macetas</a></li>
+    <li><a href="#">Hierbas ▾</a></li>
+    <li><a href="#">Arbustos ▾</a></li>
+    <li><a href="#">Más ▾</a></li>
+  </ul>
+  <div class="nav-icons">
+    <button class="nav-icon-btn" onclick="window.location='carrito.html'" style="position:relative">
+      🛒<span class="cart-badge" id="cartBadge">0</span>
+    </button>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-wm">VIVERO</div>
+  <div class="hero-text">
+    <p class="hero-tag">Vivero en Casa</p>
+    <h1>Plantas de<br><strong>Jardín</strong></h1>
+    <button class="btn-primary">Ahorra 35% en Oferta</button>
+  </div>
+  <div class="hero-img">
+    <img src="plantas/decoracion1.webp" alt="Planta destacada">
+  </div>
+</section>
+
+<section class="section">
+  <div class="cat-grid">
+    <div class="cat-card hl"><img src="plantas/10.jpg"><h4>Hierbas</h4><span>8 artículos</span></div>
+    <div class="cat-card"><img src="plantas/12.jpg"><h4>Arbustos</h4><span>5 artículos</span></div>
+    <div class="cat-card"><img src="plantas/13.jpg"><h4>Plantas</h4><span>7 artículos</span></div>
+    <div class="cat-card"><img src="plantas/14.jpg"><h4>Macetas</h4><span>7 artículos</span></div>
+    <div class="cat-card"><img src="plantas/15.jpg"><h4>Bonsái</h4><span>8 artículos</span></div>
+    <div class="cat-card"><img src="plantas/16.jpg"><h4>Albahaca</h4><span>5 artículos</span></div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0">
+  <h2 class="section-title">Productos Tendencia</h2>
+  <p class="section-leaf">🌿</p>
+
+  <div class="filter-tabs">
+    <button class="filter-tab active" onclick="setTab(this,'nuevos')">Nuevos</button>
+    <button class="filter-tab" onclick="setTab(this,'destacados')">Destacados</button>
+    <button class="filter-tab" onclick="setTab(this,'vendidos')">Más Vendidos</button>
+  </div>
+
+  <div class="products-grid visible" id="productsGrid"></div>
+</section>
+
+<!-- BUG #3: Sección poco relevante (ajustada por el usuario) -->
+<section class="irrelevant">
+  <h2>Curiosidades Botánicas</h2>
+  <p>Algunos datos interesantes sobre el mundo vegetal que quizás no sabías, pero que forman parte de su encanto natural.</p>
+  <div class="engine-grid">
+    <div class="engine-card"><h4>Plantas que se mueven</h4><p>Algunas especies pueden reaccionar al tacto o a la luz, modificando lentamente la posición de sus hojas.</p></div>
+    <div class="engine-card"><h4>Comunicación vegetal</h4><p>Se ha observado que ciertas plantas liberan compuestos químicos para interactuar con su entorno.</p></div>
+    <div class="engine-card"><h4>Crecimiento nocturno</h4><p>Muchas plantas realizan parte de su crecimiento durante la noche, aprovechando condiciones más estables.</p></div>
+  </div>
+</section>
+
+<div class="promo-grid">
+  <div class="promo dark">
+    <div class="promo-text">
+      <p class="promo-tag">natural</p>
+      <h2>Decora<br>tu Hogar</h2>
+      <button class="btn-primary" style="margin-top:14px;font-size:12px;padding:9px 20px">Comprar Ahora</button>
+    </div>
+    <img class="promo-img" src="https://images.unsplash.com/photo-1545241047-6083a3684587?w=200&q=80" alt="">
+  </div>
+  <div class="promo light">
+    <div class="promo-text">
+      <p class="promo-tag">vivero</p>
+      <h2>Plantas<br>para Casa</h2>
+      <button class="btn-primary" style="margin-top:14px;font-size:12px;padding:9px 20px">Ahorra 35% en Oferta</button>
+    </div>
+    <img class="promo-img" src="https://images.unsplash.com/photo-1487530811015-780f1cff28de?w=200&q=80" alt="">
+  </div>
+</div>
+
+<div class="features">
+  <div class="feature"><div class="feature-icon">🚚</div><h4>Envío Gratis</h4><p>En pedidos mayores a $50</p></div>
+  <div class="feature"><div class="feature-icon">🎧</div><h4>Soporte 24/7</h4><p>Siempre disponibles</p></div>
+  <div class="feature"><div class="feature-icon">🐷</div><h4>Gran Ahorro</h4><p>Precios insuperables</p></div>
+  <div class="feature"><div class="feature-icon">💳</div><h4>Pago en Línea</h4><p>100% seguro</p></div>
+</div>
+
+<div class="modal-overlay" id="modalOverlay" onclick="overlayClick(event)">
+  <div class="modal">
+    <div class="modal-img-wrap"><img id="mImg" src="" alt=""></div>
+    <div class="modal-body">
+      <h2 class="modal-name" id="mName"></h2>
+      <div class="modal-price" id="mPrice"></div>
+      <p class="modal-desc" id="mDesc"></p>
+      <div class="modal-actions">
+        <button class="btn-add-cart" id="mCartBtn">🛒 Agregar al Carrito</button>
+        <button class="btn-modal-close" onclick="closeModal()">✕</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <p>© 2026 PlantTree. Todos los derechos reservados.</p>
+</footer>
+
+<script>
+const products = [
+  {
+    id:1, name:"Zinnia Angustifolia", cat:"Hierbas",
+    desc:"Flor anual de colores vibrantes y gran resistencia a la sequía. Sus pétalos tipo margarita la hacen ideal para bordes de jardín, macetas y jardines silvestres. Florece desde verano hasta las primeras heladas.",
+    price:9.00, oldPrice:10.00, img:"plantas/1.jpg", countdown:true,
+    tab:['nuevos']
+  },
+  {
+    id:2, name:"Cresta de Gallo Plata", cat:"Arbustos",
+    desc:"Planta ornamental de follaje plateado y plumas esponjosas que aportan textura y color plateado al jardín. Tolera bien el calor y es excelente como planta de temporada en arriates y macetones.",
+    price:18.00, oldPrice:20.00, img:"plantas/2.jpg", countdown:false,
+    tab:['nuevos','destacados']
+  },
+  {
+    id:3, name:"Equinácea Púrpura", cat:"Plantas",
+    desc:"Perenne nativa muy apreciada por herbalistas y jardineros por igual. Sus grandes flores en tonos rosa-púrpura atraen mariposas y abejas. Requiere poco mantenimiento y vuelve cada año con más fuerza.",
+    price:35.00, oldPrice:null, img:"plantas/3.jpg", countdown:true,
+    tab:['destacados']
+  },
+  {
+    id:4, name:"Caléndula Signet", cat:"Albahaca",
+    desc:"Variedad compacta de caléndula con flores pequeñas y aromáticas de tono amarillo-naranja. Sus pétalos son completamente comestibles y perfectas para ensaladas. Excelente repelente natural de plagas.",
+    price:9.00, oldPrice:null, img:"plantas/4.jpg", countdown:false,
+    tab:['nuevos','vendidos']
+  },
+  {
+    id:5, name:"Batata Ornamental", cat:"Macetas",
+    desc:"Planta de follaje colgante disponible en tonos morado oscuro o verde lima intenso. Crece rápidamente y es perfecta para llenar cestas colgantes, jardineras de balcón y bordes de macetones.",
+    price:12.90, oldPrice:null, img:"plantas/5.jpg", countdown:false,
+    tab:['vendidos']
+  },
+  {
+    id:6, name:"Liatris Densa", cat:"Hierbas",
+    desc:"Planta perenne de pradera con espigas verticales cubiertas de flores púrpura-lavanda. Muy resistente a la sequía y el viento. Es un imán para mariposas monarca y colibríes durante el verano.",
+    price:12.90, oldPrice:null, img:"plantas/6.jpg", countdown:true,
+    tab:['destacados','vendidos']
+  },
+  {
+    id:7, name:"Viburnum de Siebold", cat:"Arbustos",
+    desc:"Arbusto caducifolio de gran porte con hojas texturizadas y llamativos racimos de flores blancas en primavera. En otoño produce bayas decorativas de colores que atraen aves silvestres al jardín.",
+    price:9.00, oldPrice:null, img:"plantas/7.jpg", countdown:false,
+    tab:['nuevos']
+  },
+  {
+    id:8, name:"Coreopsis Verticilada", cat:"Plantas",
+    desc:"Perenne robusta con fino follaje y una explosión de flores amarillas brillantes durante todo el verano. Prácticamente no necesita cuidados especiales y es tolerante a la sequía una vez establecida.",
+    price:9.00, oldPrice:null, img:"plantas/8.jpg", countdown:false,
+    tab:['vendidos']
+  },
+];
+
+const COUPONS = {
+  'VERDE15':  { discount: 0.15, label: '15%' },
+  'PLANTA10': { discount: 0.10, label: '10%' },
+};
+const EXPIRED_CODES = ['JARDIN20'];
+let appliedCoupon = null;
+
+let cart = JSON.parse(localStorage.getItem('planttree_cart') || '[]');
+function saveCart() { localStorage.setItem('planttree_cart', JSON.stringify(cart)); }
+function updateBadge() { document.getElementById('cartBadge').textContent = cart.reduce((s,i)=>s+i.qty,0); }
+
+function addToCart(p) {
+  const ex = cart.find(i=>i.id===p.id);
+  if (ex) ex.qty++; else cart.push({id:p.id,name:p.name,price:p.price,img:p.img,qty:1});
+  saveCart(); updateBadge();
+}
+
+function showPopup() {
+  if (!localStorage.getItem('pt_popup_seen')) {
+    document.getElementById('couponPopup').classList.add('open');
+  }
+}
+function closePopup() {
+  document.getElementById('couponPopup').classList.remove('open');
+  localStorage.setItem('pt_popup_seen', '1');
+}
+function copyCode(code) {
+  navigator.clipboard?.writeText(code).catch(()=>{});
+  const chips = document.querySelectorAll('.coupon-code-chip');
+  chips.forEach(ch => {
+    if (ch.querySelector('.code')?.textContent === code) {
+      const hint = ch.querySelector('.copy-hint');
+      hint.textContent = '¡Copiado!';
+      setTimeout(() => hint.textContent = 'Toca para copiar', 1800);
+    }
+  });
+}
+
+let currentTab = 'nuevos';
+function setTab(el, tab) {
+  document.querySelectorAll('.filter-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  currentTab = tab;
+
+  const grid = document.getElementById('productsGrid');
+  grid.classList.remove('visible');
+  grid.classList.add('fade');
+  setTimeout(() => {
+    renderProducts();
+    grid.classList.remove('fade');
+    grid.classList.add('visible');
+  }, 180);
+}
+
+function renderProducts() {
+  const filtered = products.filter(p => p.tab.includes(currentTab));
+  document.getElementById('productsGrid').innerHTML = filtered.map(p=>`
+    <div class="product-card" onclick="openModal(${p.id})">
+      ${p.countdown ? `<div class="countdown-badge">⏱ 03:40:42</div>` : ''}
+      <img src="${p.img}" alt="${p.name}" loading="lazy">
+      <div class="product-info">
+        <p class="product-name">${p.name}</p>
+        <p class="price-hint" id="hint-${p.id}">Toca para ver el precio</p>
+        <div class="product-price" id="price-${p.id}">
+          <span class="price-now">$${p.price.toFixed(2)}</span>
+          ${p.oldPrice?`<span class="price-old">$${p.oldPrice.toFixed(2)}</span>`:''}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openModal(id) {
+  const p = products.find(x=>x.id===id);
+  const hint = document.getElementById(`hint-${id}`);
+  const priceEl = document.getElementById(`price-${id}`);
+  if (hint) hint.style.display = 'none';
+  if (priceEl) priceEl.style.display = 'block';
+
+  document.getElementById('mImg').src = p.img;
+  document.getElementById('mName').textContent = p.name;
+  document.getElementById('mPrice').innerHTML = `$${p.price.toFixed(2)}`+(p.oldPrice?` <span class="old">$${p.oldPrice.toFixed(2)}</span>`:'');
+  document.getElementById('mDesc').textContent = p.desc;
+  document.getElementById('mCartBtn').onclick = () => { addToCart(p); closeModal(); };
+  document.getElementById('modalOverlay').classList.add('open');
+}
+function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
+function overlayClick(e) { if (e.target===document.getElementById('modalOverlay')) closeModal(); }
+
+renderProducts();
+updateBadge();
+window.addEventListener('load', () => setTimeout(showPopup, 800));
+</script>
+</body>
+</html>
