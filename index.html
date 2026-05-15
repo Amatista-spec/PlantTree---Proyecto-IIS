@@ -6,278 +6,346 @@
 <title>PlantTree - Vivero en Casa</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  .footer {
-    background: #2c5f34;
-    color: #fff;
-    text-align: center;
-    padding: 18px 10px;
-    font-size: 13px;
-    margin-top: 40px;
-  }
-  .footer p { margin: 0; opacity: 0.85; }
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --green: #3a7d44; --green-light: #e8f5e9; --green-dark: #2c5f34;
-    --text: #1a1a1a; --muted: #777; --radius: 12px;
-  }
-  body { font-family: 'DM Sans', sans-serif; color: var(--text); background: #fafafa; }
+/* RESET GLOBAL Y VARIABLES DE COLOR - TOCA ESTAS SOLO SI SABES LO QUE HACES */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --green: #3a7d44;
+  --green-light: #e8f5e9;
+  --green-dark: #2c5f34;
+  --text: #1a1a1a;
+  --muted: #777;
+  --radius: 12px;
+  --shadow-sm: 0 2px 8px rgba(0,0,0,.06);
+  --shadow-md: 0 8px 24px rgba(0,0,0,.09);
+  --shadow-lg: 0 16px 40px rgba(0,0,0,.13);
+}
+body { font-family: 'DM Sans', sans-serif; color: var(--text); background: #fafafa; }
 
-  .topbar { background: var(--green); color: #fff; font-size: 12px; padding: 7px 32px; display: flex; justify-content: space-between; align-items: center; }
-  .topbar-right { display: flex; gap: 16px; }
-  .topbar-right select { background: transparent; border: none; color: #fff; font-size: 12px; cursor: pointer; }
+/* TOPBAR - BARRA DE ANUNCIOS Y SELECTOR DE MONEDA */
+.topbar {
+  background: var(--green); color: #fff; font-size: 12px;
+  padding: 7px 32px; display: flex; justify-content: space-between; align-items: center;
+}
+.topbar-right { display: flex; gap: 12px; align-items: center; }
+.topbar-right select {
+  background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.35);
+  color: #fff; font-size: 12px; cursor: pointer; border-radius: 5px; padding: 3px 8px;
+  transition: background .15s; outline: none;
+}
+.topbar-right select:hover { background: rgba(255,255,255,.25); }
+.topbar-right select option { background: var(--green-dark); color: #fff; }
 
-  nav { background: #fff; padding: 0 40px; display: flex; align-items: center; justify-content: space-between; height: 68px; box-shadow: 0 2px 12px rgba(0,0,0,.07); position: sticky; top: 0; z-index: 200; }
-  .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-  .logo svg { width: 36px; height: 36px; }
-  .logo-name { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--green-dark); line-height: 1; }
-  .logo-sub { font-size: 9px; letter-spacing: 2.5px; color: var(--muted); }
-  .nav-links { display: flex; gap: 28px; list-style: none; }
-  .nav-links a { text-decoration: none; color: var(--text); font-size: 14px; font-weight: 500; transition: color .15s; }
-  .nav-links a:hover { color: var(--green); }
-  .nav-icons { display: flex; gap: 18px; align-items: center; }
-  .nav-icon-btn { background: none; border: none; cursor: pointer; font-size: 19px; position: relative; }
-  .cart-badge { position: absolute; top: -6px; right: -7px; background: var(--green); color: #fff; border-radius: 50%; width: 19px; height: 19px; font-size: 10px; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+/* BARRA DE NAVEGACION PEGADA AL TOP */
+nav {
+  background: #fff; padding: 0 40px; display: flex; align-items: center;
+  justify-content: space-between; height: 68px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.07); position: sticky; top: 0; z-index: 200;
+}
+.logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.logo svg { width: 36px; height: 36px; }
+.logo-name { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--green-dark); line-height: 1; }
+.logo-sub { font-size: 9px; letter-spacing: 2.5px; color: var(--muted); }
+.nav-links { display: flex; gap: 4px; list-style: none; }
+.nav-links li a {
+  text-decoration: none; color: var(--text); font-size: 14px; font-weight: 500;
+  padding: 6px 14px; border-radius: 6px; cursor: pointer; display: block;
+  transition: color .15s, background .15s;
+}
+.nav-links li a:hover { color: var(--green); background: var(--green-light); }
+.nav-links li a.active-nav { color: var(--green); background: var(--green-light); font-weight: 600; }
+.nav-icons { display: flex; gap: 18px; align-items: center; }
+.nav-icon-btn { background: none; border: none; cursor: pointer; font-size: 19px; position: relative; }
+.cart-badge {
+  position: absolute; top: -6px; right: -7px; background: var(--green);
+  color: #fff; border-radius: 50%; width: 19px; height: 19px; font-size: 10px;
+  display: flex; align-items: center; justify-content: center; font-weight: 700;
+}
 
-  .hero { background: linear-gradient(130deg, #f0f7f0 0%, #e4f2e5 55%, #c5e1c8 100%); padding: 64px 80px; display: flex; align-items: center; justify-content: space-between; min-height: 420px; position: relative; overflow: hidden; }
-  .hero-wm { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); font-family: 'Playfair Display', serif; font-size: 148px; font-weight: 700; color: rgba(58,125,68,.05); letter-spacing: -4px; pointer-events: none; white-space: nowrap; }
-  .hero-text { position: relative; z-index: 2; }
-  .hero-tag { color: var(--green); font-size: 13px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; font-style: italic; margin-bottom: 10px; }
-  .hero-text h1 { font-family: 'Playfair Display', serif; font-size: 58px; line-height: 1.08; margin-bottom: 28px; }
-  .hero-text h1 strong { color: var(--green-dark); display: block; }
-  .btn-primary { background: var(--green); color: #fff; border: none; padding: 13px 30px; border-radius: 7px; font-size: 14px; font-weight: 500; cursor: pointer; transition: background .2s; font-family: 'DM Sans', sans-serif; }
-  .btn-primary:hover { background: var(--green-dark); }
-  .hero-img { position: relative; z-index: 2; }
-  .hero-img img { width: 320px; height: 320px; object-fit: contain; }
+/* SECCION HERO PRINCIPAL */
+.hero {
+  background: linear-gradient(130deg, #f0f7f0 0%, #e4f2e5 55%, #c5e1c8 100%);
+  padding: 64px 80px; display: flex; align-items: center;
+  justify-content: space-between; min-height: 420px; position: relative; overflow: hidden;
+}
+.hero-wm {
+  position: absolute; left: 20px; top: 50%; transform: translateY(-50%);
+  font-family: 'Playfair Display', serif; font-size: 148px; font-weight: 700;
+  color: rgba(58,125,68,.05); letter-spacing: -4px; pointer-events: none; white-space: nowrap;
+}
+.hero-text { position: relative; z-index: 2; }
+.hero-tag {
+  color: var(--green); font-size: 13px; font-weight: 500;
+  letter-spacing: 2px; text-transform: uppercase; font-style: italic; margin-bottom: 10px;
+}
+.hero-text h1 { font-family: 'Playfair Display', serif; font-size: 58px; line-height: 1.08; margin-bottom: 28px; }
+.hero-text h1 strong { color: var(--green-dark); display: block; }
+.btn-primary {
+  background: var(--green); color: #fff; border: none; padding: 13px 30px;
+  border-radius: 7px; font-size: 14px; font-weight: 500; cursor: pointer;
+  transition: background .2s, transform .15s, box-shadow .2s; font-family: 'DM Sans', sans-serif;
+}
+.btn-primary:hover { background: var(--green-dark); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(44,95,52,.3); }
+.hero-img { position: relative; z-index: 2; }
+.hero-img img { width: 320px; height: 320px; object-fit: contain; filter: drop-shadow(0 20px 40px rgba(0,0,0,.12)); }
 
-  .section { padding: 48px 40px; }
-  .cat-grid { display: grid; grid-template-columns: repeat(6,1fr); gap: 16px; }
-  .cat-card { background: #fff; border-radius: var(--radius); text-align: center; padding: 18px 8px 14px; cursor: pointer; border: 1px solid #eee; transition: box-shadow .2s, transform .2s; }
-  .cat-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,.09); transform: translateY(-3px); }
-  .cat-card.hl { background: var(--green-light); border-color: #b2dfb5; }
-  .cat-card img { width: 80px; height: 80px; object-fit: contain; }
-  .cat-card h4 { font-size: 13px; font-weight: 600; margin-top: 8px; }
-  .cat-card span { font-size: 11px; color: var(--muted); }
+/* GRID DE CATEGORIAS */
+.section { padding: 48px 40px; }
+.cat-grid { display: grid; grid-template-columns: repeat(6,1fr); gap: 16px; }
+.cat-card {
+  background: #fff; border-radius: var(--radius); text-align: center;
+  padding: 18px 8px 14px; cursor: pointer; border: 2px solid #eee;
+  transition: box-shadow .2s, transform .2s, border-color .2s, background .2s;
+}
+.cat-card:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); border-color: #b2dfb5; }
+.cat-card.active-cat { background: var(--green-light); border-color: var(--green); box-shadow: 0 0 0 3px rgba(58,125,68,.13); }
+.cat-card img { width: 80px; height: 80px; object-fit: contain; border-radius: 8px; }
+.cat-card h4 { font-size: 13px; font-weight: 600; margin-top: 8px; }
+.cat-card span { font-size: 11px; color: var(--muted); }
 
-  .section-title { text-align: center; font-family: 'Playfair Display', serif; font-size: 34px; margin-bottom: 4px; }
-  .section-leaf { text-align: center; font-size: 20px; margin-bottom: 18px; }
+/* TITULO Y DECORACION DE SECCIONES */
+.section-title { text-align: center; font-family: 'Playfair Display', serif; font-size: 34px; margin-bottom: 4px; }
+.section-leaf { text-align: center; font-size: 20px; margin-bottom: 18px; }
 
-  .filter-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 32px; }
-  .filter-tab { padding: 8px 22px; border-radius: 20px; border: 1px solid #ddd; font-size: 13px; cursor: pointer; background: #fff; transition: all .2s; font-family: 'DM Sans', sans-serif; }
-  .filter-tab.active { background: var(--green); color: #fff; border-color: var(--green); }
+/* BARRA DE FILTROS - PESTANAS Y ETIQUETA ACTIVA */
+.filter-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; flex-wrap: wrap; gap: 12px; }
+.filter-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+.filter-tab {
+  padding: 8px 20px; border-radius: 20px; border: 1.5px solid #ddd;
+  font-size: 13px; cursor: pointer; background: #fff; transition: all .2s; font-family: 'DM Sans', sans-serif;
+}
+.filter-tab:hover:not(.active) { border-color: var(--green); color: var(--green); }
+.filter-tab.active { background: var(--green); color: #fff; border-color: var(--green); box-shadow: 0 4px 12px rgba(58,125,68,.28); }
+.filter-label { font-size: 12px; color: var(--muted); font-style: italic; }
 
-  .products-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; min-height: 100px; }
+/* GRID DONDE VIVEN LAS TARJETAS DE PRODUCTO */
+.products-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; min-height: 200px; }
+.products-grid.fade { opacity: 0; transform: translateY(8px); transition: opacity .2s, transform .2s; }
+.products-grid.visible { opacity: 1; transform: none; transition: opacity .28s, transform .28s; }
 
-  .products-grid.fade { opacity: 0; transform: translateY(6px); transition: opacity .2s, transform .2s; }
-  .products-grid.visible { opacity: 1; transform: none; transition: opacity .25s, transform .25s; }
+/* TARJETA INDIVIDUAL DE PRODUCTO */
+.product-card {
+  background: #fff; border-radius: var(--radius); overflow: hidden; border: 1px solid #eee;
+  cursor: pointer; position: relative; transition: box-shadow .25s, transform .25s;
+}
+.product-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-5px); }
+.product-card-img-wrap {
+  background: linear-gradient(145deg, #f5fbf5, #edf7ed);
+  overflow: hidden; height: 200px;
+  display: flex; align-items: center; justify-content: center;
+}
+.product-card img {
+  width: 100%; height: 200px; object-fit: contain;
+  padding: 16px; display: block; transition: transform .35s ease;
+}
+.product-card:hover img { transform: scale(1.07); }
+.cat-pill {
+  position: absolute; top: 10px; right: 10px;
+  background: rgba(255,255,255,.9); backdrop-filter: blur(4px);
+  color: var(--green); font-size: 10px; font-weight: 700;
+  padding: 3px 9px; border-radius: 20px; letter-spacing: .5px; text-transform: uppercase;
+}
+.product-info { padding: 14px 16px 18px; }
+.product-name { font-size: 14px; font-weight: 600; margin-bottom: 8px; line-height: 1.3; }
+.product-price { display: flex; align-items: center; gap: 6px; }
+.price-now { font-size: 16px; font-weight: 700; color: var(--green-dark); }
+.price-old { font-size: 12px; color: var(--muted); text-decoration: line-through; }
+.price-badge {
+  background: #fff3cd; color: #856404; border-radius: 4px;
+  font-size: 10px; font-weight: 700; padding: 2px 5px; white-space: nowrap;
+}
 
-  .product-card { background: #fff; border-radius: var(--radius); overflow: hidden; border: 1px solid #eee; cursor: pointer; position: relative; transition: box-shadow .2s, transform .2s; }
-  .product-card:hover { box-shadow: 0 12px 32px rgba(0,0,0,.1); transform: translateY(-4px); }
-  .product-card img { width: 100%; height: 200px; object-fit: contain; background: #f7fbf7; padding: 16px; display: block; }
-  .product-info { padding: 12px 16px 18px; }
-  .product-name { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+/* BADGE DE OFERTA CON CUENTA REGRESIVA */
+.countdown-badge {
+  position: absolute; top: 10px; left: 10px;
+  background: linear-gradient(135deg, #2c5f34, #3a7d44); color: #fff;
+  font-size: 10px; padding: 3px 8px; border-radius: 4px; font-weight: 600;
+}
 
-  /* BUG #2 — Precio oculto */
-  .price-hint { font-size: 11px; color: var(--muted); font-style: italic; }
-  .product-price { display: none; margin-top: 4px; }
-  .price-now { font-size: 15px; font-weight: 700; color: var(--green-dark); }
-  .price-old { font-size: 12px; color: var(--muted); text-decoration: line-through; margin-left: 5px; }
+/* ESTADO VACIO CUANDO UN FILTRO NO TRAE RESULTADOS */
+.empty-filter {
+  grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: var(--muted);
+}
+.empty-filter .ei { font-size: 48px; margin-bottom: 12px; }
+.empty-filter p { font-size: 15px; }
+.empty-filter button { margin-top: 16px; }
 
-  .countdown-badge { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,.65); color: #fff; font-size: 10px; padding: 3px 8px; border-radius: 4px; }
+/* SECCION POR QUE ELEGIRNOS - REEMPLAZA LA SECCION IRRELEVANTE ANTERIOR */
+.why-us { background: #fff; border-top: 1px solid #eee; padding: 56px 40px; }
+.why-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; max-width: 960px; margin: 28px auto 0; }
+.why-card {
+  background: linear-gradient(135deg, #f8fdf8, #eef7ee);
+  border-radius: 16px; padding: 30px 24px; border: 1px solid #d4ead6;
+  text-align: center; transition: transform .2s, box-shadow .2s;
+}
+.why-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(58,125,68,.13); }
+.why-icon { font-size: 44px; margin-bottom: 14px; }
+.why-card h4 { font-size: 15px; font-weight: 700; color: var(--green-dark); margin-bottom: 8px; }
+.why-card p { font-size: 13px; color: #4a7c51; line-height: 1.65; }
 
-  .irrelevant { background: #f3f3f3; padding: 44px 40px; text-align: center; border-top: 1px solid #e5e5e5; }
-  .irrelevant h2 { font-family: 'Playfair Display', serif; font-size: 28px; margin-bottom: 8px; }
-  .irrelevant p { color: var(--muted); font-size: 14px; max-width: 480px; margin: 0 auto 24px; }
-  .engine-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; max-width: 700px; margin: 0 auto; }
-  .engine-card { background: #fff; border-radius: 10px; padding: 20px; border: 1px solid #ddd; text-align: left; }
-  .engine-card h4 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
-  .engine-card p { font-size: 12px; color: var(--muted); }
+/* BANNERS PROMOCIONALES */
+.promo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding: 0 40px 48px; }
+.promo {
+  border-radius: 16px; overflow: hidden; position: relative; height: 240px;
+  display: flex; align-items: flex-end; padding: 28px; cursor: pointer;
+  transition: box-shadow .2s, transform .15s;
+}
+.promo:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.promo.dark { background: linear-gradient(135deg, var(--green-dark), var(--green)); }
+.promo.light { background: linear-gradient(135deg, #e8f5e9, #c8e6cb); border: 1px solid #b2dfb5; }
+.promo-text { position: relative; z-index: 2; }
+.promo-tag { font-size: 12px; font-style: italic; }
+.promo.dark .promo-tag { color: rgba(255,255,255,.75); }
+.promo.light .promo-tag { color: var(--green); }
+.promo-text h2 { font-family: 'Playfair Display', serif; font-size: 26px; line-height: 1.2; }
+.promo.dark .promo-text h2 { color: #fff; }
+.promo.light .promo-text h2 { color: var(--green-dark); }
+.promo-img { position: absolute; right: 20px; bottom: 0; height: 200px; object-fit: contain; opacity: .88; }
 
-  .promo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding: 0 40px 48px; }
-  .promo { border-radius: 16px; overflow: hidden; position: relative; height: 240px; display: flex; align-items: flex-end; padding: 28px; cursor: pointer; }
-  .promo.dark { background: var(--green); }
-  .promo.light { background: var(--green-light); border: 1px solid #b2dfb5; }
-  .promo-text { position: relative; z-index: 2; }
-  .promo-tag { font-size: 12px; font-style: italic; }
-  .promo.dark .promo-tag { color: rgba(255,255,255,.75); }
-  .promo.light .promo-tag { color: var(--green); }
-  .promo-text h2 { font-family: 'Playfair Display', serif; font-size: 26px; line-height: 1.2; }
-  .promo.dark .promo-text h2 { color: #fff; }
-  .promo.light .promo-text h2 { color: var(--green-dark); }
-  .promo-img { position: absolute; right: 20px; bottom: 0; height: 200px; object-fit: contain; }
+/* ICONOS DE CARACTERISTICAS DEL SERVICIO */
+.features {
+  background: #fff; border-top: 1px solid #eee;
+  display: flex; justify-content: center; gap: 64px; padding: 36px 40px;
+}
+.feature { text-align: center; }
+.feature-icon { font-size: 34px; margin-bottom: 8px; }
+.feature h4 { font-size: 13px; font-weight: 600; }
+.feature p { font-size: 11px; color: var(--muted); margin-top: 2px; }
 
-  .features { background: #fff; border-top: 1px solid #eee; display: flex; justify-content: center; gap: 64px; padding: 36px 40px; }
-  .feature { text-align: center; }
-  .feature-icon { font-size: 34px; margin-bottom: 8px; }
-  .feature h4 { font-size: 13px; font-weight: 600; }
-  .feature p { font-size: 11px; color: var(--muted); margin-top: 2px; }
+/* FOOTER */
+.footer {
+  background: var(--green-dark); color: #fff;
+  text-align: center; padding: 24px 10px; font-size: 13px; margin-top: 40px;
+}
+.footer p { margin: 0; opacity: 0.85; }
 
-  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.48); z-index: 500; align-items: center; justify-content: center; }
-  .modal-overlay.open { display: flex; }
-  .modal { background: #fff; border-radius: 18px; width: 420px; max-width: 92vw; overflow: hidden; box-shadow: 0 28px 60px rgba(0,0,0,.22); animation: popIn .22s ease; }
-  @keyframes popIn { from { opacity:0; transform:scale(.94); } to { opacity:1; transform:scale(1); } }
-  .modal-img-wrap { background: #f5fbf5; padding: 28px; text-align: center; }
-  .modal-img-wrap img { height: 190px; object-fit: contain; }
-  .modal-body { padding: 22px 26px 26px; }
-  .modal-name { font-family: 'Playfair Display', serif; font-size: 22px; margin-bottom: 8px; }
-  .modal-price { font-size: 22px; font-weight: 700; color: var(--green-dark); margin-bottom: 10px; }
-  .modal-price .old { font-size: 14px; color: var(--muted); font-weight: 400; text-decoration: line-through; margin-left: 8px; }
-  .modal-desc { font-size: 13px; color: var(--muted); line-height: 1.65; margin-bottom: 20px; }
-  .modal-actions { display: flex; gap: 10px; }
-  .btn-add-cart { flex: 1; background: var(--green); color: #fff; border: none; padding: 13px; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; transition: background .2s; font-family: 'DM Sans', sans-serif; }
-  .btn-add-cart:hover { background: var(--green-dark); }
-  .btn-modal-close { background: #f0f0f0; border: none; padding: 13px 16px; border-radius: 8px; font-size: 18px; cursor: pointer; }
-  .btn-modal-close:hover { background: #e0e0e0; }
+/* MODAL DE DETALLE DEL PRODUCTO */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.48); z-index: 500; align-items: center; justify-content: center; }
+.modal-overlay.open { display: flex; }
+.modal { background: #fff; border-radius: 18px; width: 440px; max-width: 92vw; overflow: hidden; box-shadow: 0 28px 60px rgba(0,0,0,.22); animation: popIn .22s ease; }
+@keyframes popIn { from { opacity:0; transform:scale(.94); } to { opacity:1; transform:scale(1); } }
+.modal-img-wrap { background: linear-gradient(145deg, #f0f9f0, #e4f2e5); padding: 28px; text-align: center; }
+.modal-img-wrap img { height: 190px; object-fit: contain; }
+.modal-body { padding: 22px 26px 26px; }
+.modal-cat-tag { font-size: 11px; color: var(--green); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+.modal-name { font-family: 'Playfair Display', serif; font-size: 22px; margin-bottom: 10px; }
+.modal-price { font-size: 22px; font-weight: 700; color: var(--green-dark); margin-bottom: 10px; }
+.modal-price .old { font-size: 14px; color: var(--muted); font-weight: 400; text-decoration: line-through; margin-left: 8px; }
+.modal-desc { font-size: 13px; color: var(--muted); line-height: 1.65; margin-bottom: 20px; }
+.modal-actions { display: flex; gap: 10px; }
+.btn-add-cart { flex: 1; background: var(--green); color: #fff; border: none; padding: 13px; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; transition: background .2s; font-family: 'DM Sans', sans-serif; }
+.btn-add-cart:hover { background: var(--green-dark); }
+.btn-modal-close { background: #f0f0f0; border: none; padding: 13px 16px; border-radius: 8px; font-size: 18px; cursor: pointer; }
+.btn-modal-close:hover { background: #e0e0e0; }
 
-  .coupon-popup-overlay {
-    display: none; position: fixed; inset: 0;
-    background: rgba(0,0,0,.55); z-index: 900;
-    align-items: center; justify-content: center;
-  }
-  .coupon-popup-overlay.open { display: flex; }
-  .coupon-popup {
-    background: #fff; border-radius: 20px; width: 420px; max-width: 92vw;
-    overflow: hidden; box-shadow: 0 32px 70px rgba(0,0,0,.25);
-    animation: popIn .28s ease;
-  }
-  .coupon-popup-banner {
-    background: linear-gradient(135deg, var(--green-dark) 0%, var(--green) 100%);
-    padding: 32px 28px 24px;
-    text-align: center; position: relative;
-  }
-  .coupon-popup-banner .gift-icon { font-size: 48px; margin-bottom: 10px; }
-  .coupon-popup-banner h2 { font-family: 'Playfair Display', serif; font-size: 24px; color: #fff; margin-bottom: 4px; }
-  .coupon-popup-banner p { font-size: 13px; color: rgba(255,255,255,.82); }
-  .coupon-popup-body { padding: 24px 28px 28px; }
-  .coupon-popup-body p { font-size: 13px; color: var(--muted); margin-bottom: 18px; text-align: center; }
-  .coupon-codes-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 22px; }
-  .coupon-code-chip {
-    display: flex; align-items: center; justify-content: space-between;
-    background: var(--green-light); border: 1.5px dashed var(--green);
-    border-radius: 10px; padding: 12px 16px; cursor: pointer;
-    transition: background .15s;
-  }
-  .coupon-code-chip:hover { background: #d4edda; }
-  .coupon-code-chip .code { font-family: monospace; font-size: 16px; font-weight: 700; color: var(--green-dark); letter-spacing: 2px; }
-  .coupon-code-chip .disc { font-size: 12px; color: var(--green); font-weight: 600; }
-  .coupon-code-chip .copy-hint { font-size: 10px; color: var(--muted); }
-  .btn-close-popup {
-    width: 100%; background: var(--green); color: #fff; border: none;
-    padding: 13px; border-radius: 9px; font-size: 14px; font-weight: 500;
-    cursor: pointer; font-family: 'DM Sans', sans-serif; transition: background .2s;
-  }
-  .btn-close-popup:hover { background: var(--green-dark); }
-  .popup-skip { text-align: center; margin-top: 10px; font-size: 12px; color: var(--muted); cursor: pointer; text-decoration: underline; }
+/* POPUP DE CUPONES DE BIENVENIDA */
+.coupon-popup-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.55); z-index: 900; align-items: center; justify-content: center; }
+.coupon-popup-overlay.open { display: flex; }
+.coupon-popup { background: #fff; border-radius: 20px; width: 420px; max-width: 92vw; overflow: hidden; box-shadow: 0 32px 70px rgba(0,0,0,.25); animation: popIn .28s ease; }
+.coupon-popup-banner { background: linear-gradient(135deg, var(--green-dark) 0%, var(--green) 100%); padding: 32px 28px 24px; text-align: center; }
+.coupon-popup-banner .gift-icon { font-size: 48px; margin-bottom: 10px; }
+.coupon-popup-banner h2 { font-family: 'Playfair Display', serif; font-size: 24px; color: #fff; margin-bottom: 4px; }
+.coupon-popup-banner p { font-size: 13px; color: rgba(255,255,255,.82); }
+.coupon-popup-body { padding: 24px 28px 28px; }
+.coupon-popup-body > p { font-size: 13px; color: var(--muted); margin-bottom: 18px; text-align: center; }
+.coupon-codes-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 22px; }
+.coupon-code-chip { display: flex; align-items: center; justify-content: space-between; background: var(--green-light); border: 1.5px dashed var(--green); border-radius: 10px; padding: 12px 16px; cursor: pointer; transition: background .15s; }
+.coupon-code-chip:hover { background: #d4edda; }
+.chip-code { font-family: monospace; font-size: 16px; font-weight: 700; color: var(--green-dark); letter-spacing: 2px; }
+.chip-disc { font-size: 12px; color: var(--green); font-weight: 600; }
+.copy-hint { font-size: 10px; color: var(--muted); }
+.btn-close-popup { width: 100%; background: var(--green); color: #fff; border: none; padding: 13px; border-radius: 9px; font-size: 14px; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: background .2s; }
+.btn-close-popup:hover { background: var(--green-dark); }
+.popup-skip { text-align: center; margin-top: 10px; font-size: 12px; color: var(--muted); cursor: pointer; text-decoration: underline; }
 
-  @media (max-width: 768px) {
+/* TOAST DE CONFIRMACION AL AGREGAR AL CARRITO */
+.toast {
+  position: fixed; bottom: 24px; right: 24px; z-index: 800;
+  background: var(--green-dark); color: #fff; padding: 12px 20px;
+  border-radius: 10px; font-size: 13px; font-weight: 500;
+  opacity: 0; transform: translateY(10px); pointer-events: none;
+  transition: opacity .25s, transform .25s;
+  box-shadow: 0 8px 24px rgba(0,0,0,.2);
+}
+.toast.show { opacity: 1; transform: translateY(0); }
 
-    .topbar { padding: 6px 16px; font-size: 11px; }
-    .topbar-right { gap: 10px; }
+/* RESPONSIVE TABLET */
+@media (max-width: 768px) {
+  .topbar { padding: 6px 16px; font-size: 11px; }
+  nav { padding: 0 16px; height: 58px; }
+  .nav-links { display: none; }
+  .logo-name { font-size: 17px; }
+  .hero { padding: 40px 24px; flex-direction: column; align-items: flex-start; min-height: auto; gap: 24px; }
+  .hero-wm { font-size: 72px; }
+  .hero-text h1 { font-size: 40px; }
+  .hero-img { width: 100%; text-align: center; }
+  .hero-img img { width: 220px; height: 220px; }
+  .section { padding: 28px 16px; }
+  .cat-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .cat-card img { width: 56px; height: 56px; }
+  .cat-card { padding: 14px 6px 10px; }
+  .section-title { font-size: 26px; }
+  .filter-tab { padding: 7px 14px; font-size: 12px; }
+  .products-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .why-us { padding: 40px 16px; }
+  .why-grid { grid-template-columns: 1fr; gap: 16px; }
+  .promo-grid { grid-template-columns: 1fr; padding: 0 16px 32px; gap: 16px; }
+  .promo { height: 200px; }
+  .promo-img { height: 160px; }
+  .promo-text h2 { font-size: 22px; }
+  .features { gap: 28px; padding: 28px 16px; flex-wrap: wrap; justify-content: center; }
+  .feature { min-width: 80px; }
+  .modal { width: 95vw; border-radius: 14px; }
+  .modal-img-wrap img { height: 150px; }
+  .modal-body { padding: 16px 18px 20px; }
+  .modal-name { font-size: 18px; }
+  .modal-price { font-size: 19px; }
+  .coupon-popup { width: 92vw; }
+}
 
-    nav { padding: 0 16px; height: 58px; }
-    .nav-links { display: none; } 
-    .logo-name { font-size: 17px; }
-
-    .hero { padding: 40px 24px; flex-direction: column; align-items: flex-start; min-height: auto; gap: 24px; }
-    .hero-wm { font-size: 72px; }
-    .hero-text h1 { font-size: 40px; }
-    .hero-img { width: 100%; text-align: center; }
-    .hero-img img { width: 220px; height: 220px; }
-
-    .section { padding: 28px 16px; }
-    .cat-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
-    .cat-card img { width: 56px; height: 56px; }
-    .cat-card { padding: 14px 6px 10px; }
-
-    .section-title { font-size: 26px; }
-
-    .filter-tabs { gap: 8px; flex-wrap: wrap; }
-    .filter-tab { padding: 7px 16px; font-size: 12px; }
-
-    .products-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
-
-    .irrelevant { padding: 32px 16px; }
-    .engine-grid { grid-template-columns: 1fr; max-width: 100%; }
-
-    .promo-grid { grid-template-columns: 1fr; padding: 0 16px 32px; gap: 16px; }
-    .promo { height: 200px; }
-    .promo-img { height: 160px; }
-    .promo-text h2 { font-size: 22px; }
-
-    .features { gap: 28px; padding: 28px 16px; flex-wrap: wrap; justify-content: center; }
-    .feature { min-width: 80px; }
-
-    .modal { width: 95vw; border-radius: 14px; }
-    .modal-img-wrap { padding: 18px; }
-    .modal-img-wrap img { height: 150px; }
-    .modal-body { padding: 16px 18px 20px; }
-    .modal-name { font-size: 18px; }
-    .modal-price { font-size: 19px; }
-
-    .coupon-popup { width: 92vw; }
-    .coupon-popup-banner { padding: 24px 18px 18px; }
-    .coupon-popup-banner h2 { font-size: 20px; }
-    .coupon-popup-body { padding: 18px 18px 22px; }
-  }
-
-  @media (max-width: 480px) {
-    .topbar-right { display: none; }
-    .topbar { justify-content: center; }
-
-    nav { padding: 0 14px; height: 54px; }
-    .logo-sub { display: none; }
-
-    .hero { padding: 32px 16px; }
-    .hero-wm { display: none; }
-    .hero-text h1 { font-size: 34px; margin-bottom: 20px; }
-    .hero-tag { font-size: 11px; }
-    .hero-img img { width: 180px; height: 180px; }
-    .btn-primary { padding: 11px 22px; font-size: 13px; }
-
-    .cat-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
-    .cat-card img { width: 48px; height: 48px; }
-    .cat-card h4 { font-size: 12px; }
-    .cat-card span { display: none; }
-
-    .section { padding: 24px 14px; }
-    .section-title { font-size: 22px; }
-
-    .filter-tab { padding: 6px 13px; font-size: 12px; }
-
-    .products-grid { grid-template-columns: 1fr; gap: 12px; }
-    .product-card img { height: 180px; }
-
-    .promo-grid { padding: 0 14px 24px; }
-    .promo { height: 180px; padding: 20px; }
-    .promo-img { height: 140px; right: 10px; }
-    .promo-text h2 { font-size: 20px; }
-
-    .features { gap: 20px; padding: 24px 14px; }
-    .feature { width: calc(50% - 20px); }
-    .feature-icon { font-size: 28px; }
-
-    .modal-overlay { align-items: flex-end; }
-    .modal {
-      width: 100vw;
-      border-radius: 18px 18px 0 0;
-      max-width: 100%;
-      animation: slideUp .25s ease;
-    }
-    @keyframes slideUp {
-      from { transform: translateY(60px); opacity: 0; }
-      to   { transform: translateY(0);    opacity: 1; }
-    }
-    .modal-img-wrap img { height: 130px; }
-    .modal-body { padding: 14px 16px 28px; }
-    .modal-desc { font-size: 12px; }
-
-    .coupon-popup { width: 96vw; border-radius: 16px; }
-    .coupon-code-chip .code { font-size: 14px; }
-  }
+/* RESPONSIVE MOBILE */
+@media (max-width: 480px) {
+  .topbar-right { display: none; }
+  .topbar { justify-content: center; }
+  nav { padding: 0 14px; height: 54px; }
+  .logo-sub { display: none; }
+  .hero { padding: 32px 16px; }
+  .hero-wm { display: none; }
+  .hero-text h1 { font-size: 34px; margin-bottom: 20px; }
+  .hero-tag { font-size: 11px; }
+  .hero-img img { width: 180px; height: 180px; }
+  .btn-primary { padding: 11px 22px; font-size: 13px; }
+  .cat-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .cat-card img { width: 48px; height: 48px; }
+  .cat-card h4 { font-size: 12px; }
+  .cat-card span { display: none; }
+  .section { padding: 24px 14px; }
+  .section-title { font-size: 22px; }
+  .filter-tab { padding: 6px 12px; font-size: 12px; }
+  .products-grid { grid-template-columns: 1fr; gap: 12px; }
+  .product-card img { height: 180px; }
+  .promo-grid { padding: 0 14px 24px; }
+  .promo { height: 180px; padding: 20px; }
+  .promo-img { height: 140px; right: 10px; }
+  .features { gap: 20px; padding: 24px 14px; }
+  .feature { width: calc(50% - 20px); }
+  .feature-icon { font-size: 28px; }
+  .modal-overlay { align-items: flex-end; }
+  .modal { width: 100vw; border-radius: 18px 18px 0 0; max-width: 100%; animation: slideUp .25s ease; }
+  @keyframes slideUp { from { transform: translateY(60px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  .modal-img-wrap { padding: 18px; }
+  .modal-img-wrap img { height: 130px; }
+  .modal-body { padding: 14px 16px 28px; }
+  .modal-desc { font-size: 12px; }
+  .coupon-popup { width: 96vw; border-radius: 16px; }
+  .chip-code { font-size: 14px; }
+  .toast { bottom: 16px; right: 16px; left: 16px; text-align: center; }
+}
 </style>
 </head>
 <body>
 
+<!-- POPUP DE BIENVENIDA CON LOS CUPONES DISPONIBLES -->
 <div class="coupon-popup-overlay" id="couponPopup">
   <div class="coupon-popup">
     <div class="coupon-popup-banner">
@@ -289,24 +357,15 @@
       <p>Elige tu cupón favorito y aplícalo en el carrito:</p>
       <div class="coupon-codes-list">
         <div class="coupon-code-chip" onclick="copyCode('VERDE15')">
-          <div>
-            <div class="code">VERDE15</div>
-            <div class="disc">15% de descuento</div>
-          </div>
+          <div><div class="chip-code">VERDE15</div><div class="chip-disc">15% de descuento</div></div>
           <div class="copy-hint">Toca para copiar</div>
         </div>
         <div class="coupon-code-chip" onclick="copyCode('PLANTA10')">
-          <div>
-            <div class="code">PLANTA10</div>
-            <div class="disc">10% de descuento</div>
-          </div>
+          <div><div class="chip-code">PLANTA10</div><div class="chip-disc">10% de descuento</div></div>
           <div class="copy-hint">Toca para copiar</div>
         </div>
         <div class="coupon-code-chip" onclick="copyCode('JARDIN20')">
-          <div>
-            <div class="code">JARDIN20</div>
-            <div class="disc">20% de descuento</div>
-          </div>
+          <div><div class="chip-code">JARDIN20</div><div class="chip-disc">20% de descuento</div></div>
           <div class="copy-hint">Toca para copiar</div>
         </div>
       </div>
@@ -316,14 +375,18 @@
   </div>
 </div>
 
+<!-- TOPBAR CON ANUNCIO Y SELECTOR DE MONEDA FUNCIONAL -->
 <div class="topbar">
-  <span>🌿 El Vivero Online más Rápido del Mundo</span>
+  <span>🌿 El Vivero Online más Rápido del Mundo — Envío Gratis en pedidos +$50</span>
   <div class="topbar-right">
-    <select><option>USD $</option><option>EUR €</option></select>
-    <select><option>Español</option><option>English</option></select>
+    <select id="currencySelect" onchange="changeCurrency(this.value)">
+      <option value="USD">USD $</option>
+      <option value="EUR">EUR €</option>
+    </select>
   </div>
 </div>
 
+<!-- NAVEGACION CON LINKS QUE FILTRAN POR CATEGORIA -->
 <nav>
   <a class="logo" href="index.html">
     <svg viewBox="0 0 36 36" fill="none">
@@ -337,11 +400,11 @@
     </div>
   </a>
   <ul class="nav-links">
-    <li><a href="#">Albahaca ▾</a></li>
-    <li><a href="#">Macetas</a></li>
-    <li><a href="#">Hierbas ▾</a></li>
-    <li><a href="#">Arbustos ▾</a></li>
-    <li><a href="#">Más ▾</a></li>
+    <li><a id="navAlbahaca" onclick="filterByCat('Albahaca')">Albahaca</a></li>
+    <li><a id="navMacetas"  onclick="filterByCat('Macetas')">Macetas</a></li>
+    <li><a id="navHierbas"  onclick="filterByCat('Hierbas')">Hierbas</a></li>
+    <li><a id="navArbustos" onclick="filterByCat('Arbustos')">Arbustos</a></li>
+    <li><a id="navTodos"    onclick="clearFilter()">Ver Todo</a></li>
   </ul>
   <div class="nav-icons">
     <button class="nav-icon-btn" onclick="window.location='carrito.html'" style="position:relative">
@@ -350,83 +413,120 @@
   </div>
 </nav>
 
+<!-- HERO CON BOTON QUE LLEVA A LOS PRODUCTOS -->
 <section class="hero">
   <div class="hero-wm">VIVERO</div>
   <div class="hero-text">
     <p class="hero-tag">Vivero en Casa</p>
     <h1>Plantas de<br><strong>Jardín</strong></h1>
-    <button class="btn-primary">Ahorra 35% en Oferta</button>
+    <button class="btn-primary" onclick="goToOffers()">Ahorra 35% en Oferta</button>
   </div>
   <div class="hero-img">
     <img src="plantas/decoracion1.webp" alt="Planta destacada">
   </div>
 </section>
 
+<!-- TARJETAS DE CATEGORIA - HACEN CLICK Y FILTRAN PRODUCTOS -->
 <section class="section">
   <div class="cat-grid">
-    <div class="cat-card hl"><img src="plantas/10.jpg"><h4>Hierbas</h4><span>8 artículos</span></div>
-    <div class="cat-card"><img src="plantas/12.jpg"><h4>Arbustos</h4><span>5 artículos</span></div>
-    <div class="cat-card"><img src="plantas/13.jpg"><h4>Plantas</h4><span>7 artículos</span></div>
-    <div class="cat-card"><img src="plantas/14.jpg"><h4>Macetas</h4><span>7 artículos</span></div>
-    <div class="cat-card"><img src="plantas/15.jpg"><h4>Bonsái</h4><span>8 artículos</span></div>
-    <div class="cat-card"><img src="plantas/16.jpg"><h4>Albahaca</h4><span>5 artículos</span></div>
+    <div class="cat-card" id="catHierbas"  onclick="filterByCat('Hierbas')">
+      <img src="plantas/10.jpg" alt="Hierbas"><h4>Hierbas</h4><span>4 artículos</span>
+    </div>
+    <div class="cat-card" id="catArbustos" onclick="filterByCat('Arbustos')">
+      <img src="plantas/12.jpg" alt="Arbustos"><h4>Arbustos</h4><span>2 artículos</span>
+    </div>
+    <div class="cat-card" id="catPlantas"  onclick="filterByCat('Plantas')">
+      <img src="plantas/13.jpg" alt="Plantas"><h4>Plantas</h4><span>5 artículos</span>
+    </div>
+    <div class="cat-card" id="catMacetas"  onclick="filterByCat('Macetas')">
+      <img src="plantas/14.jpg" alt="Macetas"><h4>Macetas</h4><span>2 artículos</span>
+    </div>
+    <div class="cat-card" id="catBonsai"   onclick="filterByCat('Bonsái')">
+      <img src="plantas/15.jpg" alt="Bonsái"><h4>Bonsái</h4><span>1 artículo</span>
+    </div>
+    <div class="cat-card" id="catAlbahaca" onclick="filterByCat('Albahaca')">
+      <img src="plantas/16.jpg" alt="Albahaca"><h4>Albahaca</h4><span>2 artículos</span>
+    </div>
   </div>
 </section>
 
-<section class="section" style="padding-top:0">
+<!-- SECCION PRINCIPAL DE PRODUCTOS CON FILTROS -->
+<section class="section" style="padding-top:0" id="productsSection">
   <h2 class="section-title">Productos Tendencia</h2>
   <p class="section-leaf">🌿</p>
 
-  <div class="filter-tabs">
-    <button class="filter-tab active" onclick="setTab(this,'nuevos')">Nuevos</button>
-    <button class="filter-tab" onclick="setTab(this,'destacados')">Destacados</button>
-    <button class="filter-tab" onclick="setTab(this,'vendidos')">Más Vendidos</button>
+  <div class="filter-bar">
+    <div class="filter-tabs">
+      <button class="filter-tab active" id="tabTodos"      onclick="setTab(this,'todos')">Todos</button>
+      <button class="filter-tab"        id="tabNuevos"     onclick="setTab(this,'nuevos')">Nuevos</button>
+      <button class="filter-tab"        id="tabDestacados" onclick="setTab(this,'destacados')">Destacados</button>
+      <button class="filter-tab"        id="tabVendidos"   onclick="setTab(this,'vendidos')">Más Vendidos</button>
+    </div>
+    <span class="filter-label" id="filterLabel"></span>
   </div>
 
   <div class="products-grid visible" id="productsGrid"></div>
 </section>
 
-<!-- BUG #3: Sección poco relevante (ajustada por el usuario) -->
-<section class="irrelevant">
-  <h2>Curiosidades Botánicas</h2>
-  <p>Algunos datos interesantes sobre el mundo vegetal que quizás no sabías, pero que forman parte de su encanto natural.</p>
-  <div class="engine-grid">
-    <div class="engine-card"><h4>Plantas que se mueven</h4><p>Algunas especies pueden reaccionar al tacto o a la luz, modificando lentamente la posición de sus hojas.</p></div>
-    <div class="engine-card"><h4>Comunicación vegetal</h4><p>Se ha observado que ciertas plantas liberan compuestos químicos para interactuar con su entorno.</p></div>
-    <div class="engine-card"><h4>Crecimiento nocturno</h4><p>Muchas plantas realizan parte de su crecimiento durante la noche, aprovechando condiciones más estables.</p></div>
+<!-- SECCION POR QUE ELEGIRNOS - RELEVANTE PARA EL FLUJO DE COMPRA -->
+<section class="why-us">
+  <h2 class="section-title">¿Por qué elegir PlantTree?</h2>
+  <p class="section-leaf">🌱</p>
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-icon">🌿</div>
+      <h4>Plantas Certificadas</h4>
+      <p>Cada planta pasa por control de calidad antes de salir del vivero. Garantizamos que llega sana, en perfecto estado y lista para florecer en tu hogar.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">📦</div>
+      <h4>Empaque Seguro</h4>
+      <p>Usamos empaques especiales que protegen raíces y follaje durante el envío. Tu planta llega como si la hubieras recogido directamente del vivero.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">🧑‍🌾</div>
+      <h4>Asesoría Experta</h4>
+      <p>Nuestro equipo de botánicos está disponible para ayudarte a elegir la planta ideal y darte consejos personalizados de cuidado.</p>
+    </div>
   </div>
 </section>
 
+<!-- BANNERS PROMOCIONALES CON BOTONES FUNCIONALES -->
 <div class="promo-grid">
-  <div class="promo dark">
+  <div class="promo dark" onclick="goToProducts()">
     <div class="promo-text">
       <p class="promo-tag">natural</p>
       <h2>Decora<br>tu Hogar</h2>
-      <button class="btn-primary" style="margin-top:14px;font-size:12px;padding:9px 20px">Comprar Ahora</button>
+      <button class="btn-primary" style="margin-top:14px;font-size:12px;padding:9px 20px"
+        onclick="event.stopPropagation(); goToProducts()">Comprar Ahora</button>
     </div>
     <img class="promo-img" src="https://images.unsplash.com/photo-1545241047-6083a3684587?w=200&q=80" alt="">
   </div>
-  <div class="promo light">
+  <div class="promo light" onclick="goToOffers()">
     <div class="promo-text">
       <p class="promo-tag">vivero</p>
       <h2>Plantas<br>para Casa</h2>
-      <button class="btn-primary" style="margin-top:14px;font-size:12px;padding:9px 20px">Ahorra 35% en Oferta</button>
+      <button class="btn-primary" style="margin-top:14px;font-size:12px;padding:9px 20px"
+        onclick="event.stopPropagation(); goToOffers()">Ahorra 35% en Oferta</button>
     </div>
     <img class="promo-img" src="https://images.unsplash.com/photo-1487530811015-780f1cff28de?w=200&q=80" alt="">
   </div>
 </div>
 
+<!-- CARACTERISTICAS DEL SERVICIO -->
 <div class="features">
   <div class="feature"><div class="feature-icon">🚚</div><h4>Envío Gratis</h4><p>En pedidos mayores a $50</p></div>
   <div class="feature"><div class="feature-icon">🎧</div><h4>Soporte 24/7</h4><p>Siempre disponibles</p></div>
-  <div class="feature"><div class="feature-icon">🐷</div><h4>Gran Ahorro</h4><p>Precios insuperables</p></div>
+  <div class="feature"><div class="feature-icon">🌱</div><h4>Gran Ahorro</h4><p>Precios insuperables</p></div>
   <div class="feature"><div class="feature-icon">💳</div><h4>Pago en Línea</h4><p>100% seguro</p></div>
 </div>
 
+<!-- MODAL PARA VER DETALLE Y AGREGAR AL CARRITO -->
 <div class="modal-overlay" id="modalOverlay" onclick="overlayClick(event)">
   <div class="modal">
     <div class="modal-img-wrap"><img id="mImg" src="" alt=""></div>
     <div class="modal-body">
+      <p class="modal-cat-tag" id="mCat"></p>
       <h2 class="modal-name" id="mName"></h2>
       <div class="modal-price" id="mPrice"></div>
       <p class="modal-desc" id="mDesc"></p>
@@ -438,79 +538,342 @@
   </div>
 </div>
 
+<!-- TOAST QUE CONFIRMA QUE SE AGREGO UN PRODUCTO -->
+<div class="toast" id="toast"></div>
+
 <footer class="footer">
-  <p>© 2026 PlantTree. Todos los derechos reservados.</p>
+  <p>© 2026 PlantTree — Todos los derechos reservados. Con amor por las plantas. 🌱</p>
 </footer>
 
 <script>
+// CATALOGO COMPLETO DE PRODUCTOS - AQUI SE AGREGAN O QUITAN PLANTAS DEL SITIO
 const products = [
   {
     id:1, name:"Zinnia Angustifolia", cat:"Hierbas",
     desc:"Flor anual de colores vibrantes y gran resistencia a la sequía. Sus pétalos tipo margarita la hacen ideal para bordes de jardín, macetas y jardines silvestres. Florece desde verano hasta las primeras heladas.",
-    price:9.00, oldPrice:10.00, img:"plantas/1.jpg", countdown:true,
-    tab:['nuevos']
+    price:9.00, oldPrice:10.00, img:"plantas/1.jpg", promo:true,
+    tab:['todos','nuevos']
   },
   {
     id:2, name:"Cresta de Gallo Plata", cat:"Arbustos",
-    desc:"Planta ornamental de follaje plateado y plumas esponjosas que aportan textura y color plateado al jardín. Tolera bien el calor y es excelente como planta de temporada en arriates y macetones.",
-    price:18.00, oldPrice:20.00, img:"plantas/2.jpg", countdown:false,
-    tab:['nuevos','destacados']
+    desc:"Planta ornamental de follaje plateado y plumas esponjosas que aportan textura y color al jardín. Tolera bien el calor y es excelente como planta de temporada en arriates y macetones.",
+    price:18.00, oldPrice:20.00, img:"plantas/2.jpg", promo:false,
+    tab:['todos','nuevos','destacados']
   },
   {
     id:3, name:"Equinácea Púrpura", cat:"Plantas",
-    desc:"Perenne nativa muy apreciada por herbalistas y jardineros por igual. Sus grandes flores en tonos rosa-púrpura atraen mariposas y abejas. Requiere poco mantenimiento y vuelve cada año con más fuerza.",
-    price:35.00, oldPrice:null, img:"plantas/3.jpg", countdown:true,
-    tab:['destacados']
+    desc:"Perenne nativa apreciada por herbalistas y jardineros. Sus grandes flores en tonos rosa-púrpura atraen mariposas y abejas. Requiere poco mantenimiento y vuelve cada año con más fuerza.",
+    price:35.00, oldPrice:null, img:"plantas/3.jpg", promo:true,
+    tab:['todos','destacados']
   },
   {
     id:4, name:"Caléndula Signet", cat:"Albahaca",
-    desc:"Variedad compacta de caléndula con flores pequeñas y aromáticas de tono amarillo-naranja. Sus pétalos son completamente comestibles y perfectas para ensaladas. Excelente repelente natural de plagas.",
-    price:9.00, oldPrice:null, img:"plantas/4.jpg", countdown:false,
-    tab:['nuevos','vendidos']
+    desc:"Variedad compacta con flores pequeñas y aromáticas de tono amarillo-naranja. Sus pétalos son completamente comestibles. Excelente repelente natural de plagas en huertos y jardines.",
+    price:9.00, oldPrice:null, img:"plantas/4.jpg", promo:false,
+    tab:['todos','nuevos','vendidos']
   },
   {
     id:5, name:"Batata Ornamental", cat:"Macetas",
-    desc:"Planta de follaje colgante disponible en tonos morado oscuro o verde lima intenso. Crece rápidamente y es perfecta para llenar cestas colgantes, jardineras de balcón y bordes de macetones.",
-    price:12.90, oldPrice:null, img:"plantas/5.jpg", countdown:false,
-    tab:['vendidos']
+    desc:"Planta de follaje colgante en tonos morado oscuro o verde lima. Crece rápidamente y es perfecta para cestas colgantes, jardineras de balcón y bordes de macetones grandes.",
+    price:12.90, oldPrice:null, img:"plantas/5.jpg", promo:false,
+    tab:['todos','vendidos']
   },
   {
     id:6, name:"Liatris Densa", cat:"Hierbas",
-    desc:"Planta perenne de pradera con espigas verticales cubiertas de flores púrpura-lavanda. Muy resistente a la sequía y el viento. Es un imán para mariposas monarca y colibríes durante el verano.",
-    price:12.90, oldPrice:null, img:"plantas/6.jpg", countdown:true,
-    tab:['destacados','vendidos']
+    desc:"Planta perenne de pradera con espigas verticales cubiertas de flores púrpura-lavanda. Muy resistente a la sequía. Es un imán para mariposas monarca y colibríes durante el verano.",
+    price:12.90, oldPrice:null, img:"plantas/6.jpg", promo:true,
+    tab:['todos','destacados','vendidos']
   },
   {
     id:7, name:"Viburnum de Siebold", cat:"Arbustos",
-    desc:"Arbusto caducifolio de gran porte con hojas texturizadas y llamativos racimos de flores blancas en primavera. En otoño produce bayas decorativas de colores que atraen aves silvestres al jardín.",
-    price:9.00, oldPrice:null, img:"plantas/7.jpg", countdown:false,
-    tab:['nuevos']
+    desc:"Arbusto caducifolio de gran porte con hojas texturizadas y llamativos racimos de flores blancas en primavera. En otoño produce bayas decorativas que atraen aves silvestres al jardín.",
+    price:9.00, oldPrice:null, img:"plantas/7.jpg", promo:false,
+    tab:['todos','nuevos']
   },
   {
     id:8, name:"Coreopsis Verticilada", cat:"Plantas",
-    desc:"Perenne robusta con fino follaje y una explosión de flores amarillas brillantes durante todo el verano. Prácticamente no necesita cuidados especiales y es tolerante a la sequía una vez establecida.",
-    price:9.00, oldPrice:null, img:"plantas/8.jpg", countdown:false,
-    tab:['vendidos']
+    desc:"Perenne robusta con fino follaje y una explosión de flores amarillas brillantes durante todo el verano. Prácticamente no necesita cuidados y es tolerante a la sequía una vez establecida.",
+    price:9.00, oldPrice:null, img:"plantas/8.jpg", promo:false,
+    tab:['todos','vendidos']
+  },
+  {
+    id:9, name:"Orquídea Phalaenopsis", cat:"Plantas",
+    desc:"La reina de las plantas de interior. Sus flores duran hasta tres meses y solo necesita riego semanal. Ideal para ambientes con luz indirecta. Un regalo elegante e imperecedero para cualquier ocasión.",
+    price:24.90, oldPrice:29.90, img:"plantas/9.jpg", promo:true,
+    tab:['todos','nuevos','destacados']
+  },
+  {
+    id:10, name:"Lavanda Verdadera", cat:"Hierbas",
+    desc:"Hierba aromática mediterránea con espigas de flores violeta. Perfecta para jardines soleados y macetas de terraza. Su fragancia natural relaja el ambiente y actúa como repelente de mosquitos.",
+    price:11.50, oldPrice:null, img:"plantas/10.jpg", promo:false,
+    tab:['todos','nuevos']
+  },
+  {
+    id:11, name:"Ficus Lyrata", cat:"Plantas",
+    desc:"El árbol de la lira, la planta de interior más solicitada por diseñadores de interiores. Sus grandes hojas verde oscuro crean un efecto visual impresionante en espacios modernos y minimalistas.",
+    price:42.00, oldPrice:48.00, img:"plantas/11.jpg", promo:true,
+    tab:['todos','destacados']
+  },
+  {
+    id:12, name:"Suculenta Echeveria", cat:"Macetas",
+    desc:"Roseta perfecta de hojas carnosas en tonos verde-azulado con bordes rosados. Requiere muy poco agua y máxima luz. Ideal para terrarios, escritorios y jardines de roca.",
+    price:8.50, oldPrice:null, img:"plantas/12.jpg", promo:false,
+    tab:['todos','nuevos','vendidos']
+  },
+  {
+    id:13, name:"Romero Prostrado", cat:"Hierbas",
+    desc:"Variedad rastrera del clásico romero culinario. Sus ramas colgantes lo hacen perfecto para jardineras de balcón. Aromático, resistente a la sequía y completamente comestible en la cocina.",
+    price:7.90, oldPrice:null, img:"plantas/13.jpg", promo:false,
+    tab:['todos','vendidos']
+  },
+  {
+    id:14, name:"Bonsái Ficus", cat:"Bonsái",
+    desc:"Bonsái de ficus de 5 años de cultivo entrenado manualmente. Tronco retorcido y follaje denso que evoca paisajes orientales. Incluye maceta de cerámica artesanal. Un regalo verdaderamente único.",
+    price:55.00, oldPrice:65.00, img:"plantas/14.jpg", promo:true,
+    tab:['todos','destacados']
+  },
+  {
+    id:15, name:"Begonia Rex", cat:"Plantas",
+    desc:"Planta de follaje espectacular con hojas pintadas en combinaciones de rojo, plata y bronce. No necesita mucha luz directa. Sus texturas y colores únicos la hacen perfecta como planta decorativa.",
+    price:14.50, oldPrice:null, img:"plantas/15.jpg", promo:false,
+    tab:['todos','nuevos']
+  },
+  {
+    id:16, name:"Albahaca Genovesa", cat:"Albahaca",
+    desc:"La variedad de albahaca más apreciada en la cocina italiana. Hojas grandes, brillantes y muy aromáticas. Perfecta para cultivar junto a la ventana y usar directamente en tus recetas del día a día.",
+    price:6.50, oldPrice:null, img:"plantas/16.jpg", promo:false,
+    tab:['todos','vendidos']
   },
 ];
 
-const COUPONS = {
-  'VERDE15':  { discount: 0.15, label: '15%' },
-  'PLANTA10': { discount: 0.10, label: '10%' },
-};
-const EXPIRED_CODES = ['JARDIN20'];
-let appliedCoupon = null;
+// TASA DE CAMBIO Y MONEDA SELECCIONADA - SE GUARDA EN LOCALSTORAGE
+const EUR_RATE = 0.92;
+let currency = localStorage.getItem('pt_currency') || 'USD';
 
+// CARRITO CARGADO DESDE EL ALMACENAMIENTO LOCAL DEL NAVEGADOR
 let cart = JSON.parse(localStorage.getItem('planttree_cart') || '[]');
-function saveCart() { localStorage.setItem('planttree_cart', JSON.stringify(cart)); }
-function updateBadge() { document.getElementById('cartBadge').textContent = cart.reduce((s,i)=>s+i.qty,0); }
 
-function addToCart(p) {
-  const ex = cart.find(i=>i.id===p.id);
-  if (ex) ex.qty++; else cart.push({id:p.id,name:p.name,price:p.price,img:p.img,qty:1});
-  saveCart(); updateBadge();
+// ESTADO ACTUAL DEL FILTRO - PESTANA ACTIVA Y CATEGORIA ACTIVA
+let activeTab = 'todos';
+let activeCat = null;
+
+// TIEMPOS FIN DE LAS CUENTAS REGRESIVAS POR PRODUCTO
+const cdEnds = {};
+
+// FFUNCION PARA FORMATEAR UN PRECIO SEGUN LA MONEDA ACTIVA
+function fmt(usd) {
+  if (currency === 'EUR') return '€' + (usd * EUR_RATE).toFixed(2);
+  return '$' + usd.toFixed(2);
 }
 
+// GUARDAR EL CARRITO Y REFRESCAR EL NUMERO DEL BADGE
+function saveCart() { localStorage.setItem('planttree_cart', JSON.stringify(cart)); }
+function updateBadge() {
+  document.getElementById('cartBadge').textContent = cart.reduce((s,i) => s + i.qty, 0);
+}
+
+// AGREGAR UN PRODUCTO AL CARRITO - SI YA EXISTE SOLO SUMA CANTIDAD
+function addToCart(p) {
+  const ex = cart.find(i => i.id === p.id);
+  if (ex) ex.qty++;
+  else cart.push({ id:p.id, name:p.name, price:p.price, img:p.img, qty:1 });
+  saveCart();
+  updateBadge();
+  showToast('✅ ' + p.name + ' agregado al carrito');
+}
+
+// MOSTRAR TOAST DE CONFIRMACION QUE SE CIERRA SOLO
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// CAMBIAR MONEDA Y ACTUALIZAR TODA LA INTERFAZ CON LOS NNUEVOS PRECIOS
+function changeCurrency(val) {
+  currency = val;
+  localStorage.setItem('pt_currency', val);
+  renderProducts();
+  const overlay = document.getElementById('modalOverlay');
+  if (overlay.classList.contains('open')) {
+    const id = parseInt(document.getElementById('mCartBtn').dataset.id);
+    if (id) openModal(id);
+  }
+}
+
+// IR SUAVEMENTE A LA SECCION DE PRODUCTOS
+function goToProducts() {
+  clearFilter();
+  document.getElementById('productsSection').scrollIntoView({ behavior: 'smooth' });
+}
+
+// IR A LAS OFERTAS - ACTIVA LA PESTANA DESTACADOS Y BAJA AL GRID
+function goToOffers() {
+  activeCat = null;
+  clearCatHighlights();
+  clearNavHighlights();
+  clearTabHighlights();
+  activeTab = 'destacados';
+  document.getElementById('tabDestacados').classList.add('active');
+  document.getElementById('filterLabel').textContent = 'Filtrando por: Destacados';
+  animateGrid(() => renderProducts());
+  setTimeout(() => document.getElementById('productsSection').scrollIntoView({ behavior: 'smooth' }), 80);
+}
+
+// FILTRAR POR CATEGORIA AL HACER CLICK EN TARJETA O ENLACE DEL MENU
+function filterByCat(cat) {
+  activeCat = cat;
+  clearTabHighlights();
+  clearCatHighlights();
+  clearNavHighlights();
+  const catIds = {
+    'Hierbas':'catHierbas', 'Arbustos':'catArbustos', 'Plantas':'catPlantas',
+    'Macetas':'catMacetas', 'Bonsái':'catBonsai', 'Albahaca':'catAlbahaca'
+  };
+  const navIds = {
+    'Hierbas':'navHierbas', 'Arbustos':'navArbustos',
+    'Macetas':'navMacetas',  'Albahaca':'navAlbahaca'
+  };
+  if (catIds[cat]) document.getElementById(catIds[cat])?.classList.add('active-cat');
+  if (navIds[cat]) document.getElementById(navIds[cat])?.classList.add('active-nav');
+  document.getElementById('filterLabel').textContent = 'Categoría: ' + cat;
+  animateGrid(() => renderProducts());
+  document.getElementById('productsSection').scrollIntoView({ behavior: 'smooth' });
+}
+
+// LIMPIAR FILTROS Y VOLVER A MOSTRAR TODOS LOS PRODUCTOS
+function clearFilter() {
+  activeCat = null;
+  activeTab = 'todos';
+  clearCatHighlights();
+  clearNavHighlights();
+  clearTabHighlights();
+  document.getElementById('tabTodos').classList.add('active');
+  document.getElementById('filterLabel').textContent = '';
+  animateGrid(() => renderProducts());
+}
+
+// CAMBIAR PESTANA DE FILTRO Y LIMPIAR SELECCION DE CATEGORIA
+function setTab(el, tab) {
+  activeCat = null;
+  activeTab = tab;
+  clearCatHighlights();
+  clearNavHighlights();
+  clearTabHighlights();
+  el.classList.add('active');
+  document.getElementById('filterLabel').textContent =
+    tab !== 'todos' ? 'Filtrando por: ' + el.textContent : '';
+  animateGrid(() => renderProducts());
+}
+
+// HELPERS PARA LIMPIAR ESTADOS VISUALES DE LOS FILTROS
+function clearTabHighlights()  { document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active')); }
+function clearCatHighlights()  { document.querySelectorAll('.cat-card').forEach(c => c.classList.remove('active-cat')); }
+function clearNavHighlights()  { document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active-nav')); }
+
+// ANIMAR EL GRID ANTES DE CAMBIAR EL CONTENIDO
+function animateGrid(callback) {
+  const grid = document.getElementById('productsGrid');
+  grid.classList.remove('visible');
+  grid.classList.add('fade');
+  setTimeout(() => {
+    callback();
+    grid.classList.remove('fade');
+    grid.classList.add('visible');
+  }, 180);
+}
+
+// RENDERIZAR LOS PRODUCTOS SEGUN EL FILTRO ACTIVO - AQUI ES DONDE ANTES ESTABA EL BUG
+function renderProducts() {
+  let filtered;
+  if (activeCat) {
+    filtered = products.filter(p => p.cat === activeCat);
+  } else {
+    filtered = products.filter(p => p.tab.includes(activeTab));
+  }
+
+  const grid = document.getElementById('productsGrid');
+
+  if (!filtered.length) {
+    grid.innerHTML = `
+      <div class="empty-filter">
+        <div class="ei">🔍</div>
+        <p>No encontramos productos en esta categoría por el momento.</p>
+        <button class="btn-primary" onclick="clearFilter()">Ver todos los productos</button>
+      </div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.map(p => {
+    const pFmt   = fmt(p.price);
+    const oldFmt = p.oldPrice ? fmt(p.oldPrice) : null;
+    const savePct = p.oldPrice ? Math.round((1 - p.price / p.oldPrice) * 100) : null;
+    const cdEnd  = p.promo ? getCdEnd(p.id) : null;
+    return `
+      <div class="product-card" onclick="openModal(${p.id})">
+        ${p.promo ? `<div class="countdown-badge">⏱ <span class="cd" data-end="${cdEnd}">--:--:--</span></div>` : ''}
+        <span class="cat-pill">${p.cat}</span>
+        <div class="product-card-img-wrap">
+          <img src="${p.img}" alt="${p.name}" loading="lazy">
+        </div>
+        <div class="product-info">
+          <p class="product-name">${p.name}</p>
+          <div class="product-price">
+            <span class="price-now">${pFmt}</span>
+            ${oldFmt  ? `<span class="price-old">${oldFmt}</span>` : ''}
+            ${savePct ? `<span class="price-badge">-${savePct}%</span>` : ''}
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+
+  startCountdowns();
+}
+
+// MANEJAR CUENTA REGRESIVA POR PRODUCTO DE OFERTA
+function getCdEnd(id) {
+  if (!cdEnds[id]) {
+    const baseSeconds = 3 * 3600 + 40 * 60 + 42;
+    cdEnds[id] = Date.now() + (baseSeconds - (id * 600)) * 1000;
+  }
+  return cdEnds[id];
+}
+
+// INICIAR TODOS LOS RELOJES DEL GRID ACTUAL
+function startCountdowns() {
+  document.querySelectorAll('.cd').forEach(el => {
+    const end = parseInt(el.dataset.end);
+    const tick = () => {
+      const diff = Math.max(0, end - Date.now());
+      const h = String(Math.floor(diff / 3600000)).padStart(2, '0');
+      const m = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0');
+      const s = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
+      el.textContent = `${h}:${m}:${s}`;
+    };
+    tick();
+    setInterval(tick, 1000);
+  });
+}
+
+// ABRIR EL MODAL CON EL DETALLE DEL PRODUCTO SELECCIONADO
+function openModal(id) {
+  const p = products.find(x => x.id === id);
+  document.getElementById('mImg').src   = p.img;
+  document.getElementById('mCat').textContent  = p.cat;
+  document.getElementById('mName').textContent = p.name;
+  document.getElementById('mPrice').innerHTML  =
+    fmt(p.price) + (p.oldPrice ? ` <span class="old">${fmt(p.oldPrice)}</span>` : '');
+  document.getElementById('mDesc').textContent = p.desc;
+  document.getElementById('mCartBtn').onclick    = () => { addToCart(p); closeModal(); };
+  document.getElementById('mCartBtn').dataset.id = id;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
+function overlayClick(e) { if (e.target === document.getElementById('modalOverlay')) closeModal(); }
+
+// POPUP DE CUPONES - SE MUESTRA SOLO UNA VEZ POR USUARIO
 function showPopup() {
   if (!localStorage.getItem('pt_popup_seen')) {
     document.getElementById('couponPopup').classList.add('open');
@@ -520,11 +883,12 @@ function closePopup() {
   document.getElementById('couponPopup').classList.remove('open');
   localStorage.setItem('pt_popup_seen', '1');
 }
+
+// COPIAR CODIGO AL PORTAPAPELES Y MOSTRAR CONFIRMACION VISUAL
 function copyCode(code) {
-  navigator.clipboard?.writeText(code).catch(()=>{});
-  const chips = document.querySelectorAll('.coupon-code-chip');
-  chips.forEach(ch => {
-    if (ch.querySelector('.code')?.textContent === code) {
+  navigator.clipboard?.writeText(code).catch(() => {});
+  document.querySelectorAll('.coupon-code-chip').forEach(ch => {
+    if (ch.querySelector('.chip-code')?.textContent === code) {
       const hint = ch.querySelector('.copy-hint');
       hint.textContent = '¡Copiado!';
       setTimeout(() => hint.textContent = 'Toca para copiar', 1800);
@@ -532,60 +896,11 @@ function copyCode(code) {
   });
 }
 
-let currentTab = 'nuevos';
-function setTab(el, tab) {
-  document.querySelectorAll('.filter-tab').forEach(t=>t.classList.remove('active'));
-  el.classList.add('active');
-  currentTab = tab;
-
-  const grid = document.getElementById('productsGrid');
-  grid.classList.remove('visible');
-  grid.classList.add('fade');
-  setTimeout(() => {
-    renderProducts();
-    grid.classList.remove('fade');
-    grid.classList.add('visible');
-  }, 180);
-}
-
-function renderProducts() {
-  const filtered = products.filter(p => p.tab.includes(currentTab));
-  document.getElementById('productsGrid').innerHTML = filtered.map(p=>`
-    <div class="product-card" onclick="openModal(${p.id})">
-      ${p.countdown ? `<div class="countdown-badge">⏱ 03:40:42</div>` : ''}
-      <img src="${p.img}" alt="${p.name}" loading="lazy">
-      <div class="product-info">
-        <p class="product-name">${p.name}</p>
-        <p class="price-hint" id="hint-${p.id}">Toca para ver el precio</p>
-        <div class="product-price" id="price-${p.id}">
-          <span class="price-now">$${p.price.toFixed(2)}</span>
-          ${p.oldPrice?`<span class="price-old">$${p.oldPrice.toFixed(2)}</span>`:''}
-        </div>
-      </div>
-    </div>
-  `).join('');
-}
-
-function openModal(id) {
-  const p = products.find(x=>x.id===id);
-  const hint = document.getElementById(`hint-${id}`);
-  const priceEl = document.getElementById(`price-${id}`);
-  if (hint) hint.style.display = 'none';
-  if (priceEl) priceEl.style.display = 'block';
-
-  document.getElementById('mImg').src = p.img;
-  document.getElementById('mName').textContent = p.name;
-  document.getElementById('mPrice').innerHTML = `$${p.price.toFixed(2)}`+(p.oldPrice?` <span class="old">$${p.oldPrice.toFixed(2)}</span>`:'');
-  document.getElementById('mDesc').textContent = p.desc;
-  document.getElementById('mCartBtn').onclick = () => { addToCart(p); closeModal(); };
-  document.getElementById('modalOverlay').classList.add('open');
-}
-function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
-function overlayClick(e) { if (e.target===document.getElementById('modalOverlay')) closeModal(); }
-
+// INICIALIZACION DEL SITIO AL CARGAR LA PAGINA
+document.getElementById('currencySelect').value = currency;
 renderProducts();
 updateBadge();
-window.addEventListener('load', () => setTimeout(showPopup, 800));
+window.addEventListener('load', () => setTimeout(showPopup, 900));
 </script>
 </body>
 </html>
